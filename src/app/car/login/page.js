@@ -5,19 +5,44 @@ import { useState } from "react";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = () => {
-    if (!phone) {
-      alert("Enter phone number");
+  const handleLogin = async () => {
+    if (!email) {
+      alert("Enter email id");
       return;
     }
-    else{
-      
+
+    try {
+      setLoading(true);
+
+      const res = await fetch(
+        "https://otp-sending-server-production.up.railway.app/api/auth/send-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || "Failed to send OTP");
+        return;
+      }
+
+      localStorage.setItem("email", email);
+      router.push("/car/login/otp");
+
+    } catch (error) {
+      alert("Something went wrong");
+    } finally {
+      setLoading(false);
     }
-
-
-    router.push("/car/login/otp");
   };
 
   return (
@@ -28,18 +53,19 @@ export default function LoginPage() {
         </h1>
 
         <input
-          type="text"
-          placeholder="Enter phone number"
+          type="email"
+          placeholder="Enter email id"
           className="w-full border p-2 mb-4 rounded text-black"
-          value={phone}
-          onChange={(e) => setPhone(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <button
           onClick={handleLogin}
+          disabled={loading}
           className="w-full bg-blue-600 text-white py-2 rounded-2xl"
         >
-          Send OTP
+          {loading ? "Sending OTP..." : "Send OTP"}
         </button>
       </div>
     </div>

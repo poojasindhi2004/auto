@@ -5,17 +5,55 @@ import { useRouter } from "next/navigation";
 
 export default function Otp() {
   const [otp, setOtp] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const verifyOtp = () => {
+  const verifyOtp = async () => {
     if (otp.length !== 6) {
       alert("Enter valid 6-digit OTP");
       return;
     }
 
-    alert("OTP verified successfully");
+    const email = localStorage.getItem("email");
 
-    router.push("/car");
+    if (!email) {
+      alert("Email missing, please login again");
+      router.push("/car/login");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const res = await fetch(
+        "https://otp-sending-server-production.up.railway.app/api/auth/verify-otp",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, otp }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || "Invalid OTP");
+        return;
+      }
+
+      // store token from backend
+      localStorage.setItem("token", data.token);
+
+      alert("OTP verified successfully");
+      router.push("/car");
+
+    } catch (error) {
+      alert("Verification failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -28,16 +66,17 @@ export default function Otp() {
         <input
           type="text"
           placeholder="Enter OTP"
-          className=" w-full border border-black  p-2 mb-4 rounded text-black  "
+          className="w-full border p-2 mb-4 rounded text-black"
           value={otp}
           onChange={(e) => setOtp(e.target.value)}
         />
 
         <button
           onClick={verifyOtp}
+          disabled={loading}
           className="w-full bg-green-700 text-white py-2 rounded-2xl"
         >
-          Verify OTP
+          {loading ? "Verifying..." : "Verify OTP"}
         </button>
       </div>
     </div>
