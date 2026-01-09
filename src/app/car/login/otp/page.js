@@ -9,8 +9,8 @@ export default function Otp() {
   const router = useRouter();
 
   const verifyOtp = async () => {
-    if (otp.length !== 6) {
-      alert("Enter valid 6-digit OTP");
+    if (otp.length !== 4) {
+      alert("Enter valid 4-digit OTP");
       return;
     }
 
@@ -26,7 +26,7 @@ export default function Otp() {
       setLoading(true);
 
       const res = await fetch(
-        "https://otp-sending-server-production.up.railway.app/api/auth/verify-otp",
+        "https://otp-sending-service-1.onrender.com/api/auth/verify-otp",
         {
           method: "POST",
           headers: {

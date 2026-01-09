@@ -18,7 +18,7 @@ export default function LoginPage() {
       setLoading(true);
 
       const res = await fetch(
-        "https://otp-sending-server-production.up.railway.app/api/auth/send-otp",
+        "https://otp-sending-service-1.onrender.com/api/auth/send-otp",
         {
           method: "POST",
           headers: {

@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -18,7 +19,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative h-[90vh] flex items-center justify-center text-white">
+    <section className="relative h-screen flex items-center justify-center text-white">
       <Image
         src="/images/creta.jpg"
         alt="Hero Car"
@@ -36,7 +37,6 @@ export default function Hero() {
           Verified dealers • Easy booking • Secure platform
         </p>
 
-        {/* 🔍 SEARCH BAR */}
         <div className="mt-10 bg-white rounded-xl p-4 max-w-4xl mx-auto flex flex-col md:flex-row gap-3">
           <input
             type="text"
@@ -74,24 +74,26 @@ export default function Hero() {
           >
             Search Cars
           </button>
+
+          
         </div>
 
-        {/* Buttons */}
-        <div className="mt-6 space-x-4">
+    <div className="mt-6 space-x-4">
           <a
-            href="/car"
+            href="car"
             className="bg-blue-600 px-6 py-3 rounded"
           >
             Browse Cars
           </a>
 
           <a
-            href="/car/login"
+            href="car/login"
             className="border px-6 py-3 rounded"
           >
             Become a Dealer
           </a>
         </div>
+        
       </div>
     </section>
   );
