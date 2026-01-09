@@ -1,6 +1,6 @@
 "use client"; // ensures this is a client component
 
-import { useSearchParams } from "next/navigation";
+//import { useSearchParams } from "next/navigation";
 import CarCard from "./components/CarCard";
 
 // Sample car data
@@ -25,25 +25,25 @@ const cars = [
 
 export default function CarPage() {
   // safe to useSearchParams because this is now a client component
-  const searchParams = useSearchParams();
+  //const searchParams = useSearchParams();
 
   // get query parameters
-  const search = searchParams.get("search") || "";
-  const budget = searchParams.get("budget");
-  const location = searchParams.get("location");
+  // const search = searchParams.get("search") || "";
+  // const budget = searchParams.get("budget");
+  // const location = searchParams.get("location");
 
   // filter cars based on query params
   const filteredCars = cars.filter((car) => {
-    const matchesSearch =
-      car.brand.toLowerCase().includes(search.toLowerCase()) ||
-      car.model.toLowerCase().includes(search.toLowerCase());
+    // const matchesSearch =
+    //   car.brand.toLowerCase().includes(search.toLowerCase()) ||
+    //   car.model.toLowerCase().includes(search.toLowerCase());
 
-    const matchesBudget = budget ? car.price <= budget * 100000 : true;
-    const matchesLocation = location
-      ? car.location.toLowerCase() === location.toLowerCase()
-      : true;
+    // const matchesBudget = budget ? car.price <= budget * 100000 : true;
+    // const matchesLocation = location
+    //   ? car.location.toLowerCase() === location.toLowerCase()
+    //   : true;
 
-    return matchesSearch && matchesBudget && matchesLocation;
+    // return matchesSearch && matchesBudget && matchesLocation;
   });
 
   return (
